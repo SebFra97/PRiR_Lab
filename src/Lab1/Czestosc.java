@@ -18,7 +18,9 @@ public class Czestosc {
             Map<String, Integer> mp= new TreeMap<>();
 
             while (sc.hasNext()) {
-                String word = toUpperCase(sc.next()).replaceAll("[^\\p{L}\\p{N}]+", "").replaceAll(",",""); // regex na UTF-8
+                String s = sc.next();
+                // błąd bo wczytana została kropka i myślnik
+                String word = toUpperCase(s).replaceAll("[^\\p{L}\\p{N}]+", "").replaceAll(",",""); // regex na UTF-8
                 if (mp.containsKey(word)) { // sprawdza czy już taki wyraz występuje
                     mp.put(word, mp.get(word) + 1); // dodanie do value wartości + 1
                 } else {
