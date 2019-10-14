@@ -13,20 +13,24 @@ public class Czestosc {
 
         try(Scanner sc = new Scanner(new File("tekst.txt"))) {
 
+            // treemap ze wzgledu na sortowanie alfabetyczne
+
             Map<String, Integer> mp= new TreeMap<>();
 
             while (sc.hasNext()) {
-                String word = toUpperCase(sc.next()).replaceAll("[^\\p{L}\\p{N}]+", "").replaceAll(",","");
-                if (mp.containsKey(word)) {
-                    mp.put(word, mp.get(word) + 1);
+                String word = toUpperCase(sc.next()).replaceAll("[^\\p{L}\\p{N}]+", "").replaceAll(",",""); // regex na UTF-8
+                if (mp.containsKey(word)) { // sprawdza czy już taki wyraz występuje
+                    mp.put(word, mp.get(word) + 1); // dodanie do value wartości + 1
                 } else {
-                    mp.put(word, 1);
+                    mp.put(word, 1); // wprowadza to słowo
                 }
             }
             int i = 0;
+            //  pętla for pobierająca z mapy wszystkie wartości z entry
 
             for(Map.Entry<String,Integer> ent : mp.entrySet()) {
                 if (i != 0 && i < 11) {
+                    // wypisanie key i value
                     String k = ent.getKey();
                     Integer v = ent.getValue();
 
