@@ -1,29 +1,55 @@
 package ksiazkaTelefoniczna;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class KsiazkaTelefoniczna {
 
     Map<String, List<Osoba>> surname = new HashMap<String,List<Osoba>>();
     Map<String,List<Osoba>> quickName = new HashMap<String,List<Osoba>>();
-    List<Osoba> all;
+    List<Osoba> all = new ArrayList<Osoba>();
 
     List<Osoba> getByImie(String name) {
         return quickName.get(name);
     }
-    List<Osoba> getByNaziwsko(String nazwisko) {
+
+    List<Osoba> getByNazwisko(String nazwisko) {
         return surname.get(nazwisko);
     }
-    void DodajOsobe(Osoba o)
+
+    public void DodajOsobe(Osoba o)
     {
         all.add(o);
+
+        boolean surnameCheck = false;
+        boolean nameCheck = false;
+
+        for(Map.Entry<String, List<Osoba>> entry : surname.entrySet()) {
+            if(entry.getKey() == o.getNazwisko()) {
+                surnameCheck = true;
+                entry.getValue().add(o);
+            }
+        }
+        if(surnameCheck == false) {
+            List<Osoba> temp = new ArrayList<Osoba>();
+            temp.add(o);
+            surname.put(o.getNazwisko(),temp);
+        }
+
+        for(Map.Entry<String, List<Osoba>> entry : quickName.entrySet()) {
+            if(entry.getKey() == o.getImie()) {
+                nameCheck = true;
+                entry.getValue().add(o);
+            }
+        }
+        if(nameCheck == false) {
+            List<Osoba> temp = new ArrayList<Osoba>();
+            temp.add(o);
+            quickName.put(o.getImie(),temp);
+        }
     }
-    void remove(int id) {
+
+    public void remove(int id) {
         Osoba osoba = null;
         for (Osoba o : all) {
             if(o.getId() == id) {
@@ -38,14 +64,23 @@ public class KsiazkaTelefoniczna {
 
     }
 
-    void File (File file) {
-        try(Scanner sc = new Scanner(new File("tekst.txt"))) {
+    void Plik (FileReader file) throws IOException {
 
+        BufferedReader bufferedReader = new BufferedReader(file);
+        String line = null;
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        while ((line = bufferedReader.readLine()) != null) {
+            String[] temp = line.split(",");
+
+            String imie = temp[0];
+            String nazwisko = temp[1];
+            String numer = temp[2];
+
+            all.add(new Osoba(imie,nazwisko,numer));
+
         }
-
     }
+
+
 
 }
