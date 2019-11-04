@@ -18,7 +18,7 @@ public class Producent extends  Thread{
                 magazyn.add(produkt);
                 i++;
                 Thread.sleep(20);
-                System.out.println("Wrzucilem do magazynu" + produkt);
+                System.out.println("Wrzucilem do magazynu =    " + produkt);
             }
         } catch (InterruptedException e) {
             System.out.println("Koniec wątku Producenta");
