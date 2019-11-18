@@ -32,7 +32,7 @@ public class BreakingTask4ToDo implements Runnable {
     @Override
     public void run() {
 
-        while (true) {
+        while (!Thread.interrupted()) {
             System.out.println("run: " + counter);
             Map<String, Integer> map = new HashMap<>();
             generatemMap(map);
