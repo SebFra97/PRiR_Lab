@@ -14,6 +14,7 @@ import static java.lang.Thread.sleep;
 
 public class BreakingTask3ToDo implements Runnable {
     int counter = 0;
+
     public static void main(String[] args) throws InterruptedException {
         Thread t = new Thread(new BreakingTask3ToDo());
         t.start();
@@ -23,19 +24,22 @@ public class BreakingTask3ToDo implements Runnable {
     }
 
 
-    /** Metoda wątku -  w nieskończonej pętli generowana jest nowa mapa częstości, a następnie porównywane są różnice częstości
+    /**
+     * Metoda wątku -  w nieskończonej pętli generowana jest nowa mapa częstości, a następnie porównywane są różnice częstości
      * Tutaj również znależy umieścić procedurę zakończenia wątku.
-     *
      */
     @Override
     public void run() {
-
-        while (!Thread.currentThread().isInterrupted()) {
-            System.out.println("run: " + counter);
-            Map<String, Integer> map = new HashMap<>();
-            generatemMap(map);
-            maxRoznica(map);
-            counter++;
+        try {
+            while (true) {
+                System.out.println("run: " + counter);
+                Map<String, Integer> map = new HashMap<>();
+                generatemMap(map);
+                maxRoznica(map);
+                counter++;
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
@@ -44,7 +48,7 @@ public class BreakingTask3ToDo implements Runnable {
      * Aby jak najszybciej zakończyć wątek należy przerwać wykonywanie pętli
      * @param map
      */
-    public void generatemMap(Map<String, Integer> map) {
+    public void generatemMap(Map<String, Integer> map) throws InterruptedException {
         Random r = new Random();
         System.out.println("generateMap: "+counter);
         for (int i = 0; i < 1000; i++) {
@@ -53,8 +57,7 @@ public class BreakingTask3ToDo implements Runnable {
             val = val == null ? 1 : val + 1;
             map.put(key, val);
             if(Thread.currentThread().isInterrupted()) {
-                Thread.currentThread().interrupt();
-                break;
+                throw new InterruptedException();
             }
         }
     }
@@ -67,7 +70,7 @@ public class BreakingTask3ToDo implements Runnable {
      * Przerwanie wątku powinno nastąpić najszybciej jak to tylko możliwe
      * @param map
      */
-    public void maxRoznica(Map<String, Integer> map) {
+    public void maxRoznica(Map<String, Integer> map) throws InterruptedException {
         int maxDX = 0;
         System.out.println("maxRoznica: " + counter);
         for (Map.Entry<String, Integer> e1 : map.entrySet()) {
@@ -78,8 +81,7 @@ public class BreakingTask3ToDo implements Runnable {
                 }
             }
             if(Thread.currentThread().isInterrupted()) {
-                Thread.currentThread().interrupt();
-                break;
+                throw new InterruptedException();
             }
         }
         System.out.println("Maksymalna różnica to: " + maxDX);

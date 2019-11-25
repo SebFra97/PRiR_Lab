@@ -25,20 +25,19 @@ public class BreakingTask2ToDo implements Runnable {
     public void run() {
         Map<String, Integer> map = new HashMap<>();
         Random r = new Random();
-        while (!Thread.currentThread().isInterrupted()) {
-            String key = "" + r.nextInt(10);
-            Integer val = map.get(key);
-            val = val == null ? 1 : val + 1;
-            map.put(key, val);
-            try {
+        try {
+            while (!Thread.currentThread().isInterrupted()) {
+                String key = "" + r.nextInt(10);
+                Integer val = map.get(key);
+                val = val == null ? 1 : val + 1;
+                map.put(key, val);
                 sleep(5);
-            } catch (InterruptedException e) {
+            }
+        } catch (InterruptedException e) {
                 System.out.println("Wyjątek");
                 for (Map.Entry<String,Integer> entry : map.entrySet()){
                     System.out.println("Wylosowano wartość " + entry.getKey() + " " + entry.getValue() + " razy.");
                 }
-                break;
-            }
         }
     }
 }
