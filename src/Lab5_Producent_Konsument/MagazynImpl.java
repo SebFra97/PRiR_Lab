@@ -16,7 +16,7 @@ public class MagazynImpl implements Magazyn<String> {
     @Override
     public void add(String product) throws InterruptedException {
        synchronized (element) {
-           if (liczbaElementow == size) element.wait();
+           while (liczbaElementow == size) element.wait();
            element[indexAdd] = product;
            indexAdd++;
            indexAdd = indexAdd % size;
@@ -27,7 +27,7 @@ public class MagazynImpl implements Magazyn<String> {
     @Override
     public String get() throws InterruptedException {
         synchronized (element) {
-            if (liczbaElementow == 0) element.wait();
+            while (liczbaElementow == 0) element.wait();
             String tmp = element[indexGet];
             indexGet++;
             indexGet = indexGet % size;
