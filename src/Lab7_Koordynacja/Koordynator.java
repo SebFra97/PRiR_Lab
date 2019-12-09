@@ -4,7 +4,10 @@ public interface Koordynator {
 
     void startA() throws InterruptedException;
     void startB() throws InterruptedException;
-    void koniecA();
-    void koniecB();
+    void startC() throws InterruptedException;
+    void koniecA() throws InterruptedException;
+    void koniecB() throws InterruptedException;
+    void koniecC();
+
 
 }
